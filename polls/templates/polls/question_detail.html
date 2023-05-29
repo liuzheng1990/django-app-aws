@@ -1,0 +1,10 @@
+<h1>{{ object.question_text }}</h1>
+<p>{{ object.pub_date }}</p>
+
+<p>Choices:</p>
+
+<ul>
+    {% for choice in object.choice_set.all %}
+    <li>{{ choice.choice_text }} (#votes: {{ choice.votes }})</li>
+    {% endfor %}
+</ul>
