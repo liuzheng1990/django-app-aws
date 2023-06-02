@@ -11,6 +11,7 @@ setup_vm: requirements_vm.txt
 	systemctl enable supervisor.service
 	systemctl restart supervisor.service
 	python3 -m pip install -r requirements_vm.txt
+	python3 manage.py collectstatic --no-input
 	python3 deployments/scripts/render_supervisor_conf.py
 
 	ln -s "$(shell pwd)/deployments/uwsgi-supervisor.conf" \
@@ -35,6 +36,7 @@ clean_vm:
 	fi
 	supervisorctl update
 	supervisorctl status
+	rm -r static/
 	
 
 setup_dev: requirements_dev.txt
