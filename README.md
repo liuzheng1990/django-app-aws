@@ -26,3 +26,7 @@ sudo make deploy_vm         # deploy the web server
 The current web server architecture is the following:
 
 ![architecture on VM](readme-architecture.png)
+
+We used `uWSGI` to run the web application. The `uWSGI` command was daemonized by `supervisord`. An `Nginx` server sits in the front, forwarding the HTTP traffic to the web application to the `uWSGI` daemon, and the traffic to the static assets to the Nginx static file service.
+
+Currently, we don't use any network-based database yet. A `sqlite` DB was included in the app. This should be changed in the next steps.
