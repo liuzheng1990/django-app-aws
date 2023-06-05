@@ -1,42 +1,78 @@
 all:
 	echo "Please specify action!"
 
-setup_vm: requirements_vm.txt
+
+prepare_vm: requirements_vm.txt
 	@if [ "$(shell whoami)" != "root" ]; then \
-		echo "Please run make setup_vm as sudo!"; \
+		echo "Please run make prepare_vm as sudo!"; \
 		exit 1; \
 	fi
 
 	apt-get install -y python3-dev python3-pip supervisor nginx
 	systemctl enable supervisor.service
 	systemctl restart supervisor.service
+
+
+config_vm:
+	@if [ "$(shell whoami)" == "root" ]; then \
+		echo "Please do not run 'make config_vm' as root!"; \
+		exit 1; \
+	fi
+	echo "My user: $(shell whoami); my group: $(shell groups | awk '{print $$1}')"
+	whoami > deployments/user.tmp
+	groups | awk '{print $$1}' > deployments/group.tmp
 	python3 -m pip install -r requirements_vm.txt
 	python3 manage.py collectstatic --no-input
 	python3 deployments/scripts/render_supervisor_conf.py
 
+
+deploy_vm:
+	@if [ ! -f "deployments/user.tmp" ]; then \
+		echo "Please run 'sudo make prepare_vm' and 'make config_vm' (without sudo privilege) first!"; \
+		exit 1; \
+	fi
+	@if [ "$(shell whoami)" != "root" ]; then \
+		echo "Please run make prepare_vm as sudo!"; \
+		exit 1; \
+	fi
+	usermod -a -G $(shell cat deployments/user.tmp) www-data
+
+	rm -f "/etc/supervisor/conf.d/uwsgi-supervisor.conf"
 	ln -s "$(shell pwd)/deployments/uwsgi-supervisor.conf" \
 		/etc/supervisor/conf.d/uwsgi-supervisor.conf
+
+	rm -f "/etc/nginx/sites-enabled/uwsgi-nginx.conf"
+	ln -s "$(shell pwd)/deployments/uwsgi-nginx.conf" \
+		/etc/nginx/sites-enabled/uwsgi-nginx.conf
+
+	rm -f "/etc/nginx/sites-enabled/default"
+	
 	supervisorctl update
 	supervisorctl status
+
+	nginx -t
+	nginx -s reload
+
 
 clean_vm:
 	@if [ "$(shell whoami)" != "root" ]; then \
 		echo "Please run make clean_vm as sudo!"; \
 		exit 1; \
 	fi
-	@if [ -f "/etc/supervisor/conf.d/uwsgi-supervisor.conf" ]; then \
-		echo "Remove /etc/supervisor/conf.d/uwsgi-supervisor.conf..."; \
-		rm "/etc/supervisor/conf.d/uwsgi-supervisor.conf"; \
-	fi
-	echo "$(shell pwd)/deployments/uwsgi-supervisor.conf"
-	ls "$(shell pwd)/deployments/uwsgi-supervisor.conf"
-	@if [ -f "$(shell pwd)/deployments/uwsgi-supervisor.conf" ]; then \
-	echo "$(shell pwd)/deployments/uwsgi-supervisor.conf..."; \
-		rm "$(shell pwd)/deployments/uwsgi-supervisor.conf"; \
-	fi
+	rm -f "/etc/supervisor/conf.d/uwsgi-supervisor.conf"
+	rm -f "/etc/nginx/sites-enabled/uwsgi-nginx.conf"
+	rm -f "deployments/uwsgi-supervisor.conf"
+	rm -f "deployments/uwsgi-nginx.conf"
+	rm -rf static/
 	supervisorctl update
 	supervisorctl status
-	rm -r static/
+	
+	@if [ -f deployments/user.tmp ]; then \
+		rm deployments/user.tmp; \
+	fi
+	@if [ -f deployments/group.tmp ]; then \
+		rm deployments/group.tmp; \
+	fi
 	
 
 setup_dev: requirements_dev.txt

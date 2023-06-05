@@ -1,6 +1,7 @@
 [program:voteapp]
 directory={{ cwd }}
-command=/usr/local/bin/uwsgi --module=voteapp.wsgi:application --http=127.0.0.1:8080
+user={{ user }}
+command=/home/{{ user }}/.local/bin/uwsgi --module=voteapp.wsgi:application --http=127.0.0.1:8080
 process_name=%(program_name)s
 autostart=true
 autorestart=true
