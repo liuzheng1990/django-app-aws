@@ -1,0 +1,8 @@
+services:
+  web:
+    build:
+      dockerfile: deployments/containers/Dockerfile.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
