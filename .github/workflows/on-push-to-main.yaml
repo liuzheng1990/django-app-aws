@@ -1,8 +1,11 @@
 name: Action on push
 run-name: Push from ${{ github.actor }}
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
 jobs:
-  Super-Linter:
+  Deploy-To-AWS:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -10,3 +13,4 @@ jobs:
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
+  

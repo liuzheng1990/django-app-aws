@@ -1,5 +1,15 @@
 # My Example Django App for learning CI/CD# django-app-aws
 
+## List of environment variables to set
+
+```
+POSTGRES_DBNAME: postgres
+POSTGRES_USERNAME: postgres
+POSTGRES_PASSWORD: example
+POSTGRES_HOST: db
+POSTGRES_PORT: 5432
+```
+
 ## Deployments
 
 ### Deploy a local dev environement
