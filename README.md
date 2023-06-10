@@ -1,6 +1,6 @@
 # My Example Django App for learning CI/CD# django-app-aws
 
-## List of environment variables to set
+## List of environment variables to set (with dev default passwords)
 
 ```
 POSTGRES_DBNAME: postgres
