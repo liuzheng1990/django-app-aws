@@ -19,12 +19,10 @@
                 {
                     "name": "POSTGRES_PORT",
                     "value": "5432"
-                }
-            ],
-            "secrets": [
+                },
                 {
                     "name": "POSTGRES_PASSWORD",
-                    "valueFrom": "arn:aws:secretsmanager:us-east-2:000717714080:secret:rds!db-af8e7264-b935-4c03-926c-16e8f3ec7f09-y5TWjz"
+                    "value": "}pJTEU5.KlGpuCSKJCm2[q33.k#A"
                 }
             ],
             "memory": "2048",
@@ -44,5 +42,5 @@
     "family": "application-stack",
     "memory": "2048",
     "cpu": "1024",
-    "executionRoleArn": "arn:aws:iam::000717714080:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
+    "executionRoleArn": "arn:aws:iam::000717714080:role/zheng-ecs-role"
 }
