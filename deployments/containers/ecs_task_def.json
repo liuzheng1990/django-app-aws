@@ -43,5 +43,6 @@
     "placementConstraints": [],
     "family": "application-stack",
     "memory": "2048",
-    "cpu": "1024"
+    "cpu": "1024",
+    "executionRoleArn": "arn:aws:iam::000717714080:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
 }
