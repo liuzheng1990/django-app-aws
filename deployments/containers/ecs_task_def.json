@@ -1,20 +1,24 @@
 {
+    "taskDefinitionArn": "arn:aws:ecs:us-east-2:000717714080:task-definition/zheng-django-aws-task:1",
     "containerDefinitions": [
         {
-            "name": "zheng-django-aws",
-            "image": "000717714080.dkr.ecr.us-east-2.amazonaws.com/harbor-zheng-django-aws",
+            "name": "zheng-django-aws-container",
+            "image": "000717714080.dkr.ecr.us-east-2.amazonaws.com/harbor-zheng-django-aws:55fd6a13b0e09ad192a7de76c36ce726155deef2",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "zheng-django-aws-container-8080-tcp",
+                    "containerPort": 8080,
+                    "hostPort": 8080,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
             "environment": [
                 {
                     "name": "POSTGRES_DBNAME",
                     "value": "postgres"
-                },
-                {
-                    "name": "POSTGRES_USERNAME",
-                    "value": "postgres"
-                },
-                {
-                    "name": "POSTGRES_HOST",
-                    "value": "db-zheng-django-aws.cqmi95gn48bq.us-east-2.rds.amazonaws.com"
                 },
                 {
                     "name": "POSTGRES_PORT",
@@ -23,23 +27,57 @@
                 {
                     "name": "POSTGRES_PASSWORD",
                     "value": "}pJTEU5.KlGpuCSKJCm2[q33.k#A"
+                },
+                {
+                    "name": "POSTGRES_USERNAME",
+                    "value": "postgres"
+                },
+                {
+                    "name": "POSTGRES_HOST",
+                    "value": "db-zheng-django-aws.cqmi95gn48bq.us-east-2.rds.amazonaws.com"
                 }
             ],
-            "memory": "2048",
-            "essential": true,
-            "portMappings": [
-                {
-                    "containerPort": 8080,
-                    "protocol": "tcp"
-                }
-            ]
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": []
         }
     ],
-    "volumes": [],
-    "requiresCompatibilities": ["FARGATE"],
+    "family": "zheng-django-aws-task",
+    "executionRoleArn": "arn:aws:iam::000717714080:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
+    "revision": 1,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        }
+    ],
     "placementConstraints": [],
-    "family": "application-stack",
-    "memory": "2048",
-    "cpu": "1024"
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2023-06-11T13:22:09.451Z",
+    "registeredBy": "arn:aws:iam::000717714080:user/zheng",
+    "tags": []
 }
