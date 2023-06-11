@@ -1,0 +1,47 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "zheng-django-aws",
+            "image": "000717714080.dkr.ecr.us-east-2.amazonaws.com/harbor-zheng-django-aws",
+            "environment": [
+                {
+                    "name": "POSTGRES_DBNAME",
+                    "value": "postgres"
+                },
+                {
+                    "name": "POSTGRES_USERNAME",
+                    "value": "postgres"
+                },
+                {
+                    "name": "POSTGRES_HOST",
+                    "value": "db-zheng-django-aws.cqmi95gn48bq.us-east-2.rds.amazonaws.com"
+                },
+                {
+                    "name": "POSTGRES_PORT",
+                    "value": "5432"
+                }
+            ],
+            "secrets": [
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-2:000717714080:secret:rds!db-af8e7264-b935-4c03-926c-16e8f3ec7f09-y5TWjz"
+                }
+            ],
+            "memory": "2048",
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "protocol": "tcp"
+                }
+            ]
+        }
+    ],
+    "volumes": [],
+    "requiresCompatibilities": ["FARGATE"],
+    "networkMode": "awsvpc",
+    "placementConstraints": [],
+    "family": "application-stack",
+    "memory": "2048",
+    "cpu": "1024"
+}
