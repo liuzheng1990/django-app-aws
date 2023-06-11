@@ -10,7 +10,7 @@ env:
   ECS_TASK_DEFINITION: deployments/containers/ecs_task_def.json
   CONTAINER_NAME: zheng-django-aws-container
   ECS_CLUSTER: ecs-django-aws
-  ECS_SERVICE: service-ecs-django-aws
+  ECS_SERVICE: ecs-django-aws-service
 
   
 jobs:
