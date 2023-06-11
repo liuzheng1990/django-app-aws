@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import QuestionListView, QuestionDetailView
+from .views import QuestionDetailView, QuestionListView
 
 
 urlpatterns = [

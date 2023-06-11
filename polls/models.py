@@ -16,3 +16,4 @@ class Choice(models.Model):
 
     def __repr__(self):
         return f"Choice: {self.choice_text}"
+    
