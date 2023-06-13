@@ -4,6 +4,8 @@ on: [push, pull_request]
 jobs:
   Super-Linter:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
       - uses: super-linter/super-linter@v5
@@ -11,3 +13,14 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           VALIDATE_LANGUAGES: "!black"
+      - uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            **Test Report**
+            
+            This simulates a test report. In a real PR, we can show test reports
+            here in the comment.
+
+            1. Linting: All passed!
+            2. Tests: All passed!
+
